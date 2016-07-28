@@ -1,0 +1,8 @@
+
+{
+  "name": "vega-renderer",
+  "role": "arn:aws:iam::432787031635:role/vega-renderer",
+  "handler": "dist.default",
+  "defaultEnvironment": "dev",
+  "environment": {}
+}
