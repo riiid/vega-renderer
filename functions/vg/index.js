@@ -33,9 +33,9 @@ export default (event, ctx, cb) => {
     .flatMap(params => upload$(params))
     .flatMap(data => post$(event, data.Location))
     .subscribe(result => {
-      cb(null, {result});
+      cb(null, result);
     }, err => {
-      console.error(err);
+      console.log(err);
       cb(err);
     });
 };
