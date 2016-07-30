@@ -1,0 +1,9 @@
+{
+  "description": "render vega spec to svg and save to s3.",
+  "memory": 256,
+  "timeout": 20,
+  "hooks": {
+    "build": "../../node_modules/.bin/ncb-install && ../../node_modules/.bin/webpack --config ../../webpack.config.js",
+    "clean": "../../node_modules/.bin/ncb-clean && ../../node_modules/.bin/rimraf dist"
+  }
+}

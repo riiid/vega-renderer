@@ -4,7 +4,9 @@ variable "aws_region" {}
 
 variable "apex_environment" {}
 
-variable "apex_function_vg" {}
+variable "apex_function_png" {}
+
+variable "apex_function_svg" {}
 
 /**
  * resources
@@ -50,28 +52,45 @@ resource "aws_api_gateway_rest_api" "api" {
   description = "render vaga spec into image."
 }
 
-resource "aws_api_gateway_resource" "vg" {
+resource "aws_api_gateway_resource" "png" {
   rest_api_id = "${aws_api_gateway_rest_api.api.id}"
   parent_id   = "${aws_api_gateway_rest_api.api.root_resource_id}"
-  path_part   = "vg"
+  path_part   = "png"
 }
 
-module "vg-post" {
+module "png-post" {
   source          = "./api-gateway-method"
   method          = "POST"
   rest_api_id     = "${aws_api_gateway_rest_api.api.id}"
   parent_id       = "${aws_api_gateway_rest_api.api.root_resource_id}"
-  resource_id     = "${aws_api_gateway_resource.vg.id}"
+  resource_id     = "${aws_api_gateway_resource.png.id}"
   aws_region      = "${var.aws_region}"
   credentials     = "${aws_iam_role.role.arn}"
-  lambda_function = "${var.apex_function_vg}"
+  lambda_function = "${var.apex_function_png}"
+}
+
+resource "aws_api_gateway_resource" "svg" {
+  rest_api_id = "${aws_api_gateway_rest_api.api.id}"
+  parent_id   = "${aws_api_gateway_rest_api.api.root_resource_id}"
+  path_part   = "svg"
+}
+
+module "svg-post" {
+  source          = "./api-gateway-method"
+  method          = "POST"
+  rest_api_id     = "${aws_api_gateway_rest_api.api.id}"
+  parent_id       = "${aws_api_gateway_rest_api.api.root_resource_id}"
+  resource_id     = "${aws_api_gateway_resource.svg.id}"
+  aws_region      = "${var.aws_region}"
+  credentials     = "${aws_iam_role.role.arn}"
+  lambda_function = "${var.apex_function_svg}"
 }
 
 module "deploy" {
   source      = "./api-gateway-deploy"
   rest_api_id = "${aws_api_gateway_rest_api.api.id}"
   stage_name  = "${var.apex_environment}"
-  depends_id  = "${module.vg-post.id}"
+  depends_id  = "${module.png-post.id},${module.svg-post.id}"
 }
 
 resource "aws_s3_bucket" "bucket" {
@@ -82,6 +101,10 @@ resource "aws_s3_bucket" "bucket" {
 /**
  * outputs
  */
-output "api" {
-  value = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.aws_region}.amazonaws.com/${var.apex_environment}/vg"
+output "api-png" {
+  value = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.aws_region}.amazonaws.com/${var.apex_environment}/png"
+}
+
+output "api-svg" {
+  value = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.aws_region}.amazonaws.com/${var.apex_environment}/svg"
 }
