@@ -13,13 +13,18 @@ $ npm run lint
 
 ## deploy
 
-functions
+### prerequisites
+
+* [apex](http://apex.run/)
+* [terraform](https://www.terraform.io/)
+
+deploy functions
 
 ```
 $ apex deploy
 ```
 
-infra (s3, api gateway)
+deploy infra (s3, api gateway)
 
 ```
 $ apex infra get
@@ -53,6 +58,6 @@ create `test.json` with following content.
 then invoke lambda function with it.
 
 ```
-$ apex invoke vg < test.json
-{"result":"https://<YOUR_PROJECT_NAME>.s3-ap-northeast-1.amazonaws.com/309ce6a75790c0753426753a991702cd65961d5b"}
+$ apex invoke png < test.json
+"https://<YOUR_PROJECT_NAME>.s3-ap-northeast-1.amazonaws.com/309ce6a75790c0753426753a991702cd65961d5b"
 ```
