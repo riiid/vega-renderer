@@ -19,13 +19,9 @@ import Rx from 'rx';
  * }
  */
 export const post$ = (event, result) => {
-  if (!event.postProcess) {
-    return Rx.Observable.return(result);
-  }
+  const {postProcess = {}} = event;
 
-  const {postProcess, postProcess: {type}} = event;
-
-  switch (type) {
+  switch (postProcess.type) {
     case 'lambda':
       break;
     case 'slack-webhook': {
@@ -35,10 +31,9 @@ export const post$ = (event, result) => {
       ];
       const body = JSON.stringify(data);
       return axios.post(postProcess.resource, body)
-        .then(() => Object.assign({result}, {post: type}));
+        .then(() => Object.assign({result}, {post: postProcess.type}));
     }
     default:
       return Rx.Observable.return({result});
   }
 };
-
