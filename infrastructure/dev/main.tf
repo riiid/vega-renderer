@@ -1,13 +1,3 @@
-variable "project_name" {}
-
-variable "aws_region" {}
-
-variable "apex_environment" {}
-
-variable "apex_function_png" {}
-
-variable "apex_function_svg" {}
-
 /**
  * resources
  */

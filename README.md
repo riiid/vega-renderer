@@ -28,10 +28,10 @@ deploy infra (s3, api gateway)
 
 ```bash
 $ apex infra get
-$ apex infra apply -var 'project_name=<YOUR_PROJECT_NAME>'
+$ apex infra apply
 ```
 
-> s3 bucket & api gateway will use `project_name` variable.
+> update [project_name](https://github.com/riiid/vega-renderer/blob/master/infrastructure/dev/variables.tf#L2) variable to change s3 bucket & api gateway name.
 
 ## invoke
 
@@ -61,7 +61,7 @@ then invoke lambda function with it.
 
 ```bash
 $ apex invoke png < test.json
-"https://<YOUR_PROJECT_NAME>.s3-ap-northeast-1.amazonaws.com/309ce6a75790c0753426753a991702cd65961d5b"
+{"result":"https://<PROJECT_NAME>.s3-ap-northeast-1.amazonaws.com/309ce6a75790c0753426753a991702cd65961d5b"}
 ```
 
 ### in other lambda function
