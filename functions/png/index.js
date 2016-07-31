@@ -1,9 +1,8 @@
 import Aws from 'aws-sdk';
 import hash from 'object-hash';
 import Rx from 'rx';
-import {PassThrough} from 'stream';
 import {post$} from 'post';
-import {spec$} from 'vg';
+import {spec$, png} from 'vg';
 
 const s3 = new Aws.S3();
 const upload$ = Rx.Observable.fromNodeCallback(s3.upload, s3);
@@ -16,20 +15,7 @@ export default (event, ctx, cb) => {
   const filename = hash(spec);
 
   spec$(spec, isLite)
-    .map(chart => {
-      const view = chart({renderer: 'canvas'}).update();
-      const canvas = view.canvas();
-      const stream = canvas.pngStream();
-      const passthrough = new PassThrough();
-      stream.pipe(passthrough);
-      return {
-        Bucket: 'vega-renderer',
-        Key: filename,
-        ACL: 'public-read',
-        Body: passthrough,
-        ContentType: 'image/png'
-      };
-    })
+    .map(chart => png(chart, filename))
     .flatMap(params => upload$(params))
     .flatMap(data => post$(event, data.Location))
     .subscribe(result => {
