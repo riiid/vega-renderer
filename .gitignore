@@ -1,4 +1,6 @@
 dist
+*.png
+*.svg
 
 ### terraform ###
 *.tfstate
