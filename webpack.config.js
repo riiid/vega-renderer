@@ -11,7 +11,7 @@ module.exports = {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    modulesDirectories: ['api', 'node_modules']
+    modulesDirectories: ['lib', 'node_modules']
   },
   module: {
     noParse: /node_modules\/json-schema\/lib\/validate\.js/,
