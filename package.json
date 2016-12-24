@@ -4,28 +4,46 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "nodemon --watch functions --exec eslint functions/**",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "nodemon --watch functions --watch lib --exec eslint functions/** lib/**",
+    "test": "jest --watch"
   },
   "author": "kykim <kykim@riiid.co>",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.12.0",
+    "lodash": "^4.13.1",
+    "node-canvas-bins": "github:riiid/node-canvas-bins",
+    "object-hash": "^1.1.2",
+    "rx": "^4.1.0",
+    "vega": "^2.6.1",
+    "vega-lite": "^1.1.0"
+  },
+  "devDependencies": {
     "babel-core": "^6.9.1",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
+    "canvas": "^1.6.2",
     "eslint": "^2.13.1",
     "eslint-config-google": "^0.6.0",
+    "jest-cli": "^18.0.0",
     "json-loader": "^0.5.4",
-    "lodash": "^4.13.1",
+    "nock": "^9.0.2",
     "nodemon": "^1.9.2",
-    "node-canvas-bins": "github:riiid/node-canvas-bins",
-    "object-hash": "^1.1.2",
     "rimraf": "^2.5.2",
-    "rx": "^4.1.0",
-    "vega": "^2.6.1",
-    "vega-lite": "^1.1.0",
     "webpack": "^1.13.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "modulePaths": [
+      "lib"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
