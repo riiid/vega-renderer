@@ -5,7 +5,7 @@ import {post$} from 'post';
 import {spec$, png} from 'vg';
 
 const s3 = new Aws.S3();
-const upload$ = Rx.Observable.bindNodeCallback(s3.upload, s3);
+const upload$ = Rx.Observable.bindNodeCallback(s3.upload.bind(s3));
 
 export default (event, ctx, cb) => {
   if (!event.spec) {
